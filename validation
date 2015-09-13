@@ -1,0 +1,228 @@
+<html>
+<head>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<style>
+.blackcolor {
+	 background-color:black;
+	 color:white;
+	 height:30px;
+}
+
+.trow {
+	 background-color:DCDCDC;
+	 color:black;
+	 vertical-align:middle;
+	 font-family:arial;
+}
+.erow {
+	 background-color:DCDCDC;
+	 color:black;
+	 vertical-align:middle
+}
+.hrs {
+    border: 0;
+    border-bottom: 1px dashed #ccc;
+    background: #999;
+}
+
+.containerClass {
+	display:inline-block;
+    vertical-align:middle;
+	
+}
+
+</style>
+<script>
+
+function validate() {
+	
+	var nameArr = ["fname", "lname", "email",  "pwd" ];
+	
+	for (var idx in nameArr) {
+		validateMandatory(nameArr[idx]);
+	}
+	validateEmail(document.getElementById("email"));
+	validateEmail(document.getElementById("cemail"));
+	validateCEmail(document.getElementById("cemail"));
+	
+	validatePwd(document.getElementById("pwd"));
+	validatePwd(document.getElementById("cpwd"));
+	validateCPwd(document.getElementById("cpwd"));
+	
+	var validate = true;
+	for (var idx in nameArr) {
+		if (document.getElementById(nameArr[idx] + "Err").innerHTML != "") {
+			validate = false;
+			break;
+		}
+	}
+	
+	if (Boolean(validate)) {
+		document.getElementById("success").innerHTML ="Registered successfully";
+	} else {
+		document.getElementById("success").innerHTML ="";
+	}
+	
+}
+
+function validateMandatory(name) {
+	if (document.getElementById(name).value == "") {
+		document.getElementById(name + "Err").innerHTML = "Required Field";
+	} else {
+		document.getElementById(name + "Err").innerHTML = "";
+	}
+}
+
+function validateElement(element) {
+	if (element.value == "") {
+		document.getElementById(element.id +"Err").innerHTML = "Required Field";
+	} else {
+		document.getElementById(element.id +"Err").innerHTML = "";
+	}
+}
+
+function  validateEmail(element) {
+	var emailExpr = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+	
+	if (element.value != "" && 
+		!emailExpr.test(element.value)) {
+		document.getElementById(element.id +"Err").innerHTML = "Enter valid Email address";
+	} 
+	
+}
+
+function  validatePwd(element) {
+	var passwordExpr = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i;
+	
+	if (element.value != "" && 
+		!passwordExpr.test(element.value)) {
+		document.getElementById(element.id + "Err").innerHTML = "Password should contain 8 characters, uppercase, lowercase and number";
+	} 
+	
+}
+
+
+function validateCEmail(element) {
+	if (document.getElementById("email").value != "" && 
+		document.getElementById("cemail").value != "" && 
+		document.getElementById("email").value != document.getElementById("cemail").value) {
+		document.getElementById("cemailErr").innerHTML = "Email and Confirm Email should have same value";
+	}
+}
+
+function validateCPwd(element) {
+	if (document.getElementById("pwd").value != "" && 
+		document.getElementById("cpwd").value != "" && 
+		document.getElementById("pwd").value != document.getElementById("cpwd").value) {
+		document.getElementById("cpwdErr").innerHTML = "Password and Confirm Password should have same value";
+	}
+}
+
+</script>
+
+</head>
+<body	style="background-color:gray; vertical-align:middle">
+
+<div class="navbar navbar-inverse">
+	<div class="container">
+		<div class="navbar-header">
+			<a href = "" class="navbar-brand">Registration</a> 	
+		</div>
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li><a href = "" >Sign in</a> </li>
+				<li><a href = "" >Search</a> </li>
+				<li><a href = "" >Sign Out</a> </li>
+			</ul>
+		</div>
+		
+	</div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6">
+	    <div class="row blackcolor">
+    		<div class="col-md-12 text-center">
+    			Account Registration
+    		</div>
+	    </div>
+		<form name="regFrm">
+		<div class="row trow">
+				<div class="col-md-1" ></div>
+				<div class="col-md-5">
+					 First Name * <br>
+					 <input class="form-control" id="fname" type="text" onfocusout="validateElement(this)">
+					 <p id="fnameErr" class="text-danger"></p>
+				</div>
+				<div class="col-md-5">
+					Last Name *<br>
+					<input class="form-control" id="lname" type="text" onfocusout="validateElement(this) ">
+					<p id="lnameErr" class="text-danger"></p>
+				</div>
+				<div class="col-md-1" ></div>
+		</div>
+		<div class="row erow">
+			<hr class="hrs">
+		</div>
+		<div class="row trow">
+				<div class="col-md-1" ></div>
+				<div class="col-md-5">
+					 Email *<br>
+					 <input class="form-control" id="email" value="asdf@asdf.com" type="text" onfocusout="validateElement(this);validateEmail(this)">
+					 <p id="emailErr" class="text-danger"></p>
+				</div>
+				<div class="col-md-5">
+					Confirm Email *<br>
+					<input class="form-control" id="cemail" value="asdf@asdf.com" type="text" onfocusout="validateElement(this);validateEmail(this);validateCEmail(this)">
+					 <p id="cemailErr" class="text-danger"></p>
+				</div>
+				<div class="col-md-1" ></div>
+		</div>
+		<div class="row erow">
+			<hr class="hrs">
+		</div>
+		<div class="row trow">
+				<div class="col-md-1" ></div>
+				<div class="col-md-5">
+					 Password *<br>
+					 <input class="form-control" id="pwd" type="password" value="Abcd12345" onfocusout="validateElement(this);validatePassword(this)">
+					 <p id="pwdErr" class="text-danger"></p>
+				</div>
+				<div class="col-md-5">
+					Confirm Password *<br>
+					<input class="form-control" id="cpwd" type="password" value="Abcd12345" onfocusout="validateElement(this);validatePassword(this);validateCPwd(this)">
+					 <p id="cpwdErr" class="text-danger"></p>
+				</div>
+				<div class="col-md-1" ></div>
+		</div>
+		
+		<div class="row erow">
+			<div class="col-md-12" ><p id="success" class="text-success text-center" ></p></div>
+		</div>
+		
+		<div class="row trow">
+				<div class="col-md-12 text-center" ><input type="button"" class="btn btn-primary btn-md" onclick="validate()" value="Create Account"></div>
+				
+				
+		</div>
+		
+		<div class="row erow">
+			<div class="col-md-12" ></div>
+		</div>
+		</form>
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+</div>
+</body>
+</html>
