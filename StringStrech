@@ -1,0 +1,64 @@
+<html>
+<head>
+
+<script>
+function stretchString() {
+
+	var words = document.getElementById("longstring").value.split(" ");
+	var charCount = document.getElementById("longstring").value.length;
+	var stretchCount = document.getElementById("stretchCount").value;
+	if (charCount == 0) {
+		document.getElementById("error").innerHTML = "Enter Valid string";
+		return;
+	}
+	
+	if (stretchCount <= charCount) {
+		document.getElementById("error").innerHTML = "Number of characters to stretch is less than or equal to String length";
+		return;
+	} else {
+		document.getElementById("error").innerHTML = "";
+	}
+	
+	console.log ("Strech Count:"+ stretchCount);
+	console.log ("CharCount:"+ charCount);
+	console.log ("Number of empty chars to print:" + (parseInt(stretchCount) - parseInt(charCount)) );
+	console.log ("Total number of words to add the space:" + (words.length -1));
+	
+	var numberOfSpaces = 0;
+	var reminder = 0;
+	if (words.length > 1) {
+		numberOfSpaces = parseInt((parseInt(stretchCount) - charCount) / (words.length - 1));
+		reminder = (stretchCount - charCount) % (words.length - 1);
+	} else {
+		reminder = stretchCount - charCount;
+	}
+	
+	console.log("Total number of spaces to add between each word:" + numberOfSpaces);
+	console.log("Reminder:" + reminder);
+	
+	var result = "";
+	var c = ' ';
+		
+	for (var i=0; i <words.length -1; i++) {
+		result = result + words[i] + Array(numberOfSpaces + 2).join(c);
+	}
+	document.getElementById("longstring").value = result + Array(reminder +1 ).join(c) + words[words.length -1];
+	console.log ("Altered String Length:" + document.getElementById("longstring").value.length);
+	
+}
+</script>
+
+</head>
+
+<body>
+
+Input String: <textarea  id="longstring" rows=4 cols=60>The weather in California has changed dramatically in the last few years.</textarea> <br>
+Number of Chars: <input type="text" id="stretchCount" value="100"> <br><br>
+<p id="error" style="color:red"></p>
+
+<input type="button" name="stretch" onclick="stretchString()" value="Stretch String"/>
+
+</body>
+
+
+</html>
