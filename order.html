@@ -1,0 +1,306 @@
+<html>
+<head>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<style>
+.blackcolor {
+	 background-color:black;
+	 color:white;
+	 height:30px;
+}
+.trow {
+	 background-color:DCDCDC;
+	 color:black;
+	 vertical-align:middle;
+	 font-family:arial;
+}
+.erow {
+	 background-color:DCDCDC;
+	 color:black;
+	 vertical-align:middle
+}
+.hrs {
+    border: 0;
+    border-bottom: 1px dashed #ccc;
+    background: #999;
+}
+.containerClass {
+	display:inline-block;
+    vertical-align:middle;
+	
+}
+
+.btnGray{
+	width:150px;
+	height:80px;
+	background-color:#E0E0E0; 
+	border-radius:15px
+}
+
+.btnRed{
+	width:150px;
+	height:80px;
+	background-color:red; 
+	border-radius:15px
+}
+
+.btnCurve{
+	border-radius:8px
+}
+
+@media (min-width: 1000px) {
+    .container{
+        max-width: 900px;
+    }
+}
+
+.paraFont {
+	color: white;
+}
+
+</style>
+<script>
+
+var mcItems = [{name:"Burgers", description:"Delicious, freshly made, and oh-so-satisfying. From the Big Mac to our Premium Grilled Chicken Club to our classic Cheeseburger", price:"6"}, 
+			   {name:"McWrap Chicken", description:"Delicious juicy 100% grilled chicken breast filet seasoned to perfection with ingredients like salt, garlic...", price:"7"},
+			   {name:"Chicken", description:"From our ever-popular Chicken McNuggets, our fabulously fresh salads or the classic Filet-O-Fish, both chicken and fish.....", price:"8"},
+			   {name:"Beverages", description:"No meal is complete without a drink! From Diet Coke® to low-fat milk to fresh-brewed hot coffee, we’ve got the perfect companion for your favorite menu items", price:"9"},
+			    ];
+
+var swItems = [{name:"Veggie Delite", description:"Crispy, crunchy and classically delicious. The Veggie Delite® is tangible proof that a sandwich can be high in flavor without being high in fat. ", price:"6"}, 
+			   {name:"Steak & Cheese", description:"Enjoy Italian style meatballs drenched in irresistible marinara sauce, served on freshly baked bread", price:"7"},
+			   {name:"Cold cut Combo", description:"Can't decide what kind of meat you want? Get them all. The Cold Cut Combo is stacked with turkey-based meats - ham, salami and bologna. ", price:"8"},
+			   {name:"Chopped Salads", description:"Our Chopped Salads blend your favorite ingredients like tasty chicken, turkey and roast beef, plus fresh garden veggies like crisp spinach and crunchy cucumbers. ", price:"9"},
+			    ];
+			    
+			    
+var phItems = [{name:"Pizza", description:"Create a pizza with your choice of delicious crusts, sauces and ingredients. Flavor up for free with a crust flavor and/or sauce drizzle", price:"12"}, 
+			   {name:"Pasta", description:"Grilled chicken breast strips and rotini pasta oven-baked in a creamy Alfredo sauce with a layer of melted cheese", price:"11"},
+			   {name:"Meat Marinara", description:"Savory Italian-seasoned meat sauce and rotini pasta topped with cheese and oven-baked. ", price:"9"},
+			   {name:"Pepparoni lovers", description:"Classic marinara sauce piled high with cheese and extra pepperoni.", price:"10"},
+			    ];
+
+var chItems = [{name:"Burrito", description:"Flour tortilla with your choice of meat, vegetables and bean", price:"6"}, 
+			   {name:"Bowl", description:"Served with bowel, rice, vegitables, and salsa", price:"7"},
+			   {name:"Salad", description:"Fresh Vegitables", price:"6"},
+			   {name:"Kids Menu", description:"Drink and kids related choices", price:"9"},
+			    ];		
+
+var times = ["10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM",
+			 "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM",
+			 "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM"];
+		    
+function order(name, time, items, price) {
+    this.name = name;
+    this.time = time;
+    this.items = items;
+    this.price = price;
+}
+
+var orders =[];
+   
+function setColor(id, color){
+	
+   var btn = document.getElementById(id);
+   if (btn.className == 'btnGray'){
+   		btn.className = "btnRed";
+   } else {
+   		btn.className = "btnGray";
+   }
+}
+
+function calculate() {
+	var amount = 0;
+	var selected = 0;
+	var selectedItems = "";
+	if (document.getElementById("name").value == "") {
+		alert("Please enter valid value");
+		return;
+	}
+	
+	for (var i=0; i<4; i++) {
+		var btn = document.getElementById("item" + i);
+		if (btn.className == 'btnRed') {
+			selected = selected + 1;
+		}
+	}
+	
+	if (selected == 0) {
+		alert("Please select a food item");
+		return;
+	}
+	
+	for (var i=0; i<4; i++) {
+		var btn = document.getElementById("item" + i);
+		
+		if (btn.className == 'btnRed') {
+			var value = btn.value.substring(0,2);
+			var index = btn.value.substring(2);
+			if (value == 'SW') {
+				amount = eval(amount) + eval(swItems[index].price);
+				selectedItems = selectedItems + ", " + swItems[index].name;
+			} else if (value == 'MC') {
+				amount = eval(amount) + eval(mcItems[index].price);
+				selectedItems = selectedItems + ", " + mcItems[index].name;
+			} else if (value == 'PH') {
+				amount = eval(amount) + eval(phItems[index].price);
+				selectedItems = selectedItems + ", " + phItems[index].name;
+			}else if (value == 'CH') {
+				amount = eval(amount) + eval(chItems[index].price);
+				selectedItems = selectedItems + ", " + chtems[index].name;
+			}
+		}
+	}
+	
+	var e = document.getElementById("time");
+	var selectedTime = e.options[e.selectedIndex].value;
+	
+	var dbOrders = localStorage.getItem("Orders");
+	if (localStorage["Orders"]) {
+		orders = JSON.parse(dbOrders);
+	} 
+	
+	var newOrder = new order(document.getElementById("name").value, selectedTime, selectedItems, amount );
+	orders.push(newOrder);
+	var jsonStr = JSON.stringify(orders);
+	localStorage.setItem ("Orders", jsonStr);
+	
+	for (var i=0; i<4; i++) {
+		var btn = document.getElementById("item" + i);
+		btn.className = 'btnGray';
+	}
+	
+	document.getElementById("result").innerHTML = "Order has been successfully placed, Thanks for your order...";
+}
+
+	    
+ 
+function showItems(shopName) {
+
+	for (var i=0; i<4; i++) {
+		var btn = document.getElementById("item" + i);
+		btn.className = 'btnGray';
+	}
+	if (shopName == 'MC') {
+		for (var index in mcItems) {
+			document.getElementById("item" + index).innerText= mcItems[index].name;
+			document.getElementById("item" + index).value= shopName+ index;
+			document.getElementById("desc" + index).innerHTML= mcItems[index].description + "<br><br>" + "Price...: " + mcItems[index].price + " $";
+			
+		}
+	} else if (shopName == 'SW') {
+		for (var index in swItems) {
+			document.getElementById("item" + index).innerText= swItems[index].name;
+			document.getElementById("item" + index).value= shopName+index;
+			document.getElementById("desc" + index).innerHTML= swItems[index].description + "<br><br>" + "Price...: " + swItems[index].price + " $";
+		}
+	}  else if (shopName == 'PH') {
+		for (var index in swItems) {
+			document.getElementById("item" + index).innerText= phItems[index].name;
+			document.getElementById("item" + index).value= shopName+index;
+			document.getElementById("desc" + index).innerHTML= phItems[index].description + "<br><br>" + "Price...: " + phItems[index].price + " $";
+		}
+	} else if (shopName == 'CH') {
+		for (var index in swItems) {
+			document.getElementById("item" + index).innerText= chItems[index].name;
+			document.getElementById("item" + index).value= shopName+index;
+			document.getElementById("desc" + index).innerHTML= chItems[index].description + "<br><br>" + "Price...: " + chItems[index].price + " $";
+		}
+	}
+	
+	
+}
+
+
+
+function fillTime() {
+	for (var index in times) {
+		var opt = document.createElement('option');
+	    opt.value = times[index];
+		opt.innerHTML = times[index];	
+		document.getElementById('time').appendChild(opt);
+		
+	}
+}
+
+</script>
+
+</head>
+<body	style="background-color:gray; vertical-align:middle" onload="showItems('MC');fillTime()">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">UC Berkeley's cafeteria</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li><a href="home.html">Home</a></li>
+        <li class="active"><a href="order.html">Order</a></li>
+        <li><a href="Store.html">store</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+    	<div class="col-md-3 text-center" ><input type="button"" class="btn btn-primary btn-md" onclick="showItems('MC')" value="McDonalds"></div>
+    	<div class="col-md-3 text-center" ><input type="button"" class="btn btn-primary btn-md" onclick="showItems('SW')" value="Subway"></div>
+    	<div class="col-md-3 text-center" ><input type="button"" class="btn btn-primary btn-md" onclick="showItems('PH')" value="Pizzahut"></div>
+    	<div class="col-md-3 text-center" ><input type="button"" class="btn btn-primary btn-md" onclick="showItems('CH')" value="Chipotle"></div>
+    </div>
+  </div>
+  
+  <div class="row">   
+    <div class="col-md-12">
+    	<br>
+    	<div class="col-md-3 text-center" ><button id="item0" onClick="setColor('item0', 'red')" type="button" value="test"  class="btnGray">French Fries</button></div>
+    	<div class="col-md-9 text-left paraFont" ><p id="desc0">Fresh mixed greens and sumptuous grape tomatoes, getting along brilliantly with hickory-smoked bacon.</p></div> 	
+    </div>
+  </div>  
+  
+  <div class="row">   
+    <div class="col-md-12">
+    	<br>
+    	<div class="col-md-3 text-center" ><button id="item1" type="button" onClick="setColor('item1', 'red')" class="btnGray">French Fries</button></div>
+    	<div class="col-md-9 text-left paraFont" ><p id="desc1">Fresh mixed greens and sumptuous grape tomatoes, getting along brilliantly with hickory-smoked bacon.</p></div> 	
+    </div>
+  </div>  
+  
+  <div class="row">   
+    <div class="col-md-12">
+    	<br>
+    	<div class="col-md-3 text-center" ><button id="item2" onClick="setColor('item2', 'red')" type="button" class="btnGray">French Fries</button></div>
+    	<div class="col-md-9 text-left paraFont" ><p id="desc2">Fresh mixed greens and sumptuous grape tomatoes, getting along brilliantly with hickory-smoked bacon.</p></div> 	
+    </div>
+  </div>    
+  
+  <div class="row">   
+    <div class="col-md-12">
+    	<br>
+    	<div class="col-md-3 text-center" ><button id="item3" onClick="setColor('item3', 'red')" type="button" class="btnGray">French Fries</button></div>
+    	<div class="col-md-9 text-left paraFont" ><p id="desc3">Fresh mixed greens and sumptuous grape tomatoes, getting along brilliantly with hickory-smoked bacon.</p></div> 	
+    </div>
+  </div>  
+  
+  <div class="row">   
+    <div class="col-md-12">
+    	<br>
+    	<div class="col-md-12 text-left" >&nbsp;&nbsp;&nbsp;
+	    	<input type="text" id="name" value="" placeholder="Enter Name..." class="btnCurve">&nbsp;
+	    	<select id="time" style="height:2em">
+	    		<option value = "0" disabled style="width:50px;background:lightGray">Time...</option>
+	    	</select>
+	    	<button onClick="calculate()" id="item3" type="button" class="btn-primary  btn-sm btnCurve">Order</button>
+	    	<span id="result" class="paraFont"></span>
+	    </div> 	
+    	
+    </div>
+  </div>  
+    
+</div>
+</body>
+</html>
