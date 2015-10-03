@@ -1,0 +1,163 @@
+<html>
+<head>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<style>
+.blackcolor {
+	 background-color:black;
+	 color:white;
+	 height:30px;
+}
+.trow {
+	 background-color:DCDCDC;
+	 color:black;
+	 vertical-align:middle;
+	 font-family:arial;
+}
+.erow {
+	 background-color:DCDCDC;
+	 color:black;
+	 vertical-align:middle
+}
+.hrs {
+    border: 0;
+    border-bottom: 1px dashed #ccc;
+    background: #999;
+}
+.containerClass {
+	display:inline-block;
+    vertical-align:middle;
+	
+}
+
+.btnGray{
+	width:150px;
+	height:80px;
+	background-color:#E0E0E0; 
+	border-radius:15px
+}
+
+.btnRed{
+	width:150px;
+	height:80px;
+	background-color:red; 
+	border-radius:15px
+}
+
+.btnCurve{
+	border-radius:8px
+}
+
+@media (min-width: 1000px) {
+    .container{
+        max-width: 900px;
+    }
+}
+
+@media (max-width: 979px) {
+  .navbar-fixed-top,
+  .navbar-fixed-bottom {
+      position: fixed;
+      margin-left: 0px;
+      margin-right: 0px;
+  }
+}
+
+.paraFont {
+	color: white;
+}
+
+</style>
+<script>
+function fillItems() {
+	var orders = [];
+	var dbOrders = localStorage.getItem("Orders");
+	if (localStorage["Orders"]) {
+		orders = JSON.parse(dbOrders);
+	}
+	
+	for (var i in orders) {
+		var opt = document.createElement('option');
+	    opt.value = orders[i].name;
+	    opt.innerHTML =  orders[i].name + "->" + orders[i].time  + "->" + orders[i].items + "->" +orders[i].price + " $";	
+		document.getElementById('orderList').appendChild(opt);
+	}
+}
+
+function pickup(orderList) {
+	var selectedValue;
+	for(i=orderList.options.length-1;i>0;i--){
+		if(orderList.options[i].selected) {
+			selectedValue = orderList[i].value;
+			document.getElementById("result").innerHTML="The order has been picked up by..." + orderList[i].value;
+			orderList.remove(i);
+			break;
+		}
+	}
+	
+	var orders = [];
+	var dbOrders = localStorage.getItem("Orders");
+	if (localStorage["Orders"]) {
+		orders = JSON.parse(dbOrders);
+	}
+	
+	for (var i in orders) {
+		if (selectedValue == orders[i].name){
+			orders.splice(i, 1);
+			break;
+		}	
+	}
+	
+	var jsonStr = JSON.stringify(orders);
+	localStorage.setItem ("Orders", jsonStr);
+	
+	
+	
+	
+}
+
+</script>
+</head>
+<body	style="background-color:gray; vertical-align:middle" onload="fillItems()">
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">UC Berkeley's cafeteria</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li><a href="http://htmlpreview.github.io/?https://github.com/pmalathi/registeration/blob/master/home.html">Home</a></li>
+        <li><a href="http://htmlpreview.github.io/?https://github.com/pmalathi/registeration/blob/master/order.html">Order</a></li>
+        <li class="active"><a href="Store.html">Store</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container">
+ <div class="row">   
+    <div class="col-md-12">
+    	<br>
+    	<div class="col-md-8 text-left" >
+    		<select  multiple class="btnCurve" id="orderList" size="6">
+    			<option value = "0" disabled style="width:500px;background:lightGray">Current Orders...</option>
+    		</select>
+    	</div>
+    	<div class="col-md-4 text-left" >
+    		<button onClick="pickup(orderList)" id="item3" type="button" class="btn-primary  btn-sm btnCurve">Pickup</button>
+    	</div>
+    </div>
+  </div> 
+  <div class="row">   
+    <div class="col-md-12 paraFont text-center">
+    	<br><br><p id="result"></p>
+    </div>
+ </div> 
+  
+</div>
+</body>
+</html>
